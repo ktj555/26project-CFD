@@ -5,6 +5,7 @@
   * Very fast calculation speed compared other CFD simulation
   * Great accuracy  
 is satisfied(hope)
+* __Automation process__ by using python win32com library during all analysis process
 
 <details>
   <summary>What is CFD?</summary>
@@ -26,15 +27,12 @@ is satisfied(hope)
 </details>
 
 ### Implementations
-* Read 3D Cad file
-* Slice modeling
-* Input slicing modeling data in AI
-* Save result in csv file
-* Visualizing Results
+* Automation to slice 3d modeling file and save shape infomation to csv file
+* Create AI model by using tensorflow
 
 ### Additional
 * Language : Python, matlab(for create training data sets)
-* Enviroment : VScode & jupyter notebook or others
+* Enviroment : VScode & jupyter notebook & matlab or others
 * Develop period : 8 weeks
 
 ### Should learn
