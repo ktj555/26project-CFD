@@ -37,10 +37,13 @@ is satisfied(hope)
 * Enviroment : VScode & jupyter notebook or others
 * Develop period : 8 weeks
 
+### Should learn
+* library : win32com(for handling inventor and comsole), openCV(if it is needed)
+
 ### PLAN
 |index|note|
 |--|--|
-|1|Study Blender Mesh importer for 3D modeling file convert to csv|
-|2|Create training data set using comsole(CFD-simulator)|
-|3|Create AI model and training|
-|4|Test algorithm|
+|1~4|Study win32com library and handling inventor and comsole by python|
+|5~6|Create training data set using comsole(CFD-simulator)|
+|7|Create AI model and training|
+|8|Test algorithm|
