@@ -31,12 +31,12 @@ is satisfied(hope)
 * Create AI model by using tensorflow
 
 ### Additional
-* Language : Python, matlab(for create training data sets)
+* Language : Python(AI Model), C++(win32api for automation), matlab(for create training data sets)
 * Enviroment : VScode & jupyter notebook & matlab or others
 * Develop period : 8 weeks
 
 ### Should learn
-* library : win32com(for handling inventor and comsole), openCV(if it is needed)
+* library : win32api(for handling inventor and comsole), openCV(if it is needed)
 
 ### PLAN
 |index|note|
