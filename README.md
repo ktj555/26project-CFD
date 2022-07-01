@@ -32,7 +32,7 @@ is satisfied(hope)
 
 ### Additional
 * Language : Python(AI Model), C++(win32api for automation), matlab(for create training data sets)
-* Enviroment : VScode & jupyter notebook & matlab or others
+* Enviroment : VScode & jupyter notebook & matlab & Visual studio or others
 * Develop period : 8 weeks
 
 ### Should learn
