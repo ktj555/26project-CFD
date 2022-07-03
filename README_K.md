@@ -40,7 +40,7 @@ Window 환경에 있어서
 * library : win32com, openCV(필요시)
 
 ### 진행 계획
-|index|note|
+|Week|Plan|
 |--|--|
 |1~5|win32com 라이브러리를 활용한 inventor(3d CAD App) 및 COMSOL(CFD 프로그램) 처리 자동화|
 |1|3d CAD 파일 솔리드 분해(혹은 Meshing) 자동화|
