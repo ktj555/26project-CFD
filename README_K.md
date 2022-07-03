@@ -37,7 +37,7 @@ Window 환경에 있어서
 * 개발 기간 : 8 weeks
 
 ### 사용할(학습해야 할) 라이브러리
-* library : win32com, openCV(필요시)
+* library : win32com
 
 ### 진행 계획
 |Week|Plan|
