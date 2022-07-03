@@ -36,12 +36,12 @@ is satisfied(hope)
 * Develop period : 8 weeks
 
 ### Should learn
-* library : win32api(for handling inventor and comsole), openCV(if it is needed)
+* library : win32com(for handling inventor and comsol), openCV(if it is needed)
 
 ### PLAN
 |index|note|
 |--|--|
-|1~4|Study win32com library and handling inventor and comsole by python|
-|5~6|Create training data set using comsole(CFD-simulator)|
+|1~4|Study win32com library and handling inventor and comsol by python|
+|5~6|Create training data set using comsol(CFD-simulator)|
 |7|Create AI model and training|
 |8|Test algorithm|
