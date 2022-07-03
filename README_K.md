@@ -1,4 +1,4 @@
-# Project AI
+# Project 목표 및 계획
 
 ### 목표
 Window 환경에 있어서
