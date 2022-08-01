@@ -1,6 +1,8 @@
 from copy import deepcopy
 import numpy as np
 
+import time
+
 def find_key(dict,value):
     for k,v in dict.items():
         if(v==value):
@@ -23,6 +25,8 @@ class circuit:
         self.edge=[]
         self.reverse=[]
         i=0
+        self.setup=False
+        self.d=None
         for n in nodes:
             self.node[i]=n
             self.edge.append([])
@@ -47,10 +51,15 @@ class circuit:
                 for i in self.reverse[index]:
                     self.node[index].In.append(self.node[i].Out)
                 self.node[index].Out+=self.node[index].In[0]+[index]
+        self.setup=True
+        self.d=diff
         return diff
 
     def make_eqn(self):
-        diff=self.set_in_out()
+        if(self.setup):
+            diff=self.d
+        else:
+            diff=self.set_in_out()
         A=[]
         B=[]
         node_list=[i for i in range(len(self.node))]
@@ -60,11 +69,11 @@ class circuit:
                 pre=[0 for _ in range(len(self.node))]
                 for index in self.edge[i]:
                     pre[index]=1
-                    if(index in node_list):
-                        node_list.remove(index)
                 pre[i]=-1
                 A.append(pre)
                 B.append([0])
+                if(i in node_list):
+                    node_list.remove(i)
         for i in range(len(self.reverse)):
             if(len(self.reverse[i])>1):
                 pre=[0 for _ in range(len(self.node))]
@@ -114,10 +123,10 @@ class circuit:
             j.v=0
         new_circuit.node[0].v=1
         new_circuit.node[len(new_circuit.node)-1].r=0
+        
         A,B=new_circuit.make_eqn()
         I=np.dot(np.linalg.pinv(A),B)
         return 1/I[0]
-
 
     def BFS_path_list(self):
         result=[]
@@ -148,19 +157,16 @@ class circuit:
         return string
 
 a=node(1,0)
-b=node(0,0.5)
-c=node(0,1)
-d=node(0,2)
+b=node(1,4)
+c=node(0,2)
+d=node(0,1)
 C=circuit([a,b,c,d],[(a,b),(a,c),(b,d),(c,d),(d,a)])
 
+A,B=C.make_eqn()
+I=np.dot(np.linalg.inv(np.dot(A.T,A)),np.dot(A.T,B))
+print(I)
+print('test')
 print(C.calculate_load_resistence())
-
-# A,B=C.make_eqn()
-# A=np.array(A)
-# B=np.array(B)
-# I=np.dot(np.linalg.pinv(A),B)
-# print(I)
-
 # print(C)
 # print(C.set_in_out())
 # for i,j in C.node.items():
