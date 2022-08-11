@@ -21,6 +21,40 @@ class Material:
             if (i not in dir(Material)):
                 print(i,'is',getattr(self,i))
 
+    def rho(self,state):
+        if(self.DensityType=='const'):
+            return self.Density
+        else:
+            if(self.DensityType=='Temperature_dependent'):
+                return self.Density(T=state['T'])
+            elif(self.DensityType=='Pressure_dependent'):
+                return self.Density(P=state['P'])
+            elif(self.DensityType=='Temperature_Pressure_dependent'):
+                return self.Density(T=state['T'],P=state['P'])
+        return False
+
+    def k(self,state):
+        if(self.ConductivityType=='const'):
+            return self.Conductivity
+        else:
+            if(self.ConductivityType=='Temperature_dependent'):
+                return self.Conductivity(T=state['T'])
+            elif(self.ConductivityType=='Pressure_dependent'):
+                return self.Conductivity(P=state['P'])
+            elif(self.ConductivityType=='Temperature_Pressure_dependent'):
+                return self.Conductivity(T=state['T'],P=state['P'])
+
+    def Cp(self,state):
+        if(self.SpecificheatType=='const'):
+            self.Specificheat
+        else:
+            if(self.SpecificheatType=='Temperature_dependent'):
+                return self.Specificheat(T=state['T'])
+            elif(self.SpecificheatType=='Pressure_dependent'):
+                return self.Specificheat(P=state['P'])
+            elif(self.Specificheat=='Temperature_Pressure_dependent'):
+                return self.Specificheat(T=state['T'],P=state['P'])
+
 class Fluid(Material):
     def __init__(self,info):
         '''
@@ -32,6 +66,17 @@ class Fluid(Material):
 
         super().__init__(info,need)
 
+    def mu(self,state):
+        if(self.ViscosityType=='const'):
+            return self.Viscosity
+        else:
+            if(self.ViscosityType=='Temperature_dependent'):
+                return self.Viscosity(T=state['T'])
+            elif(self.ViscosityType=='Pressure_dependent'):
+                return self.Viscosity(P=state['P'])
+            elif(self.ViscosityType=='Temperature_Pressure_dependent'):
+                return self.Viscosity(T=state['T'],P=state['P'])
+
 class Solid(Material):
     def __init__(self,info):
         '''
@@ -42,6 +87,28 @@ class Solid(Material):
         need=['Density','Conductivity','Specificheat','Seebeck','Resistivity','DensityType','ConductivityType','SpecificheatType','SeebeckType','ResistivityType']
 
         super().__init__(info,need)
+
+    def s(self,state):
+        if(self.SeebeckType=='const'):
+            return self.Seebeck
+        else:
+            if(self.SeeBeckType=='Temperature_dependent'):
+                return self.Seebeck(T=state['T'])
+            elif(self.SeebeckType=='Pressure_dependent'):
+                return self.Seebeck(P=state['P'])
+            elif(self.SeebeckType=='Temperature_Pressure_dependent'):
+                return self.Seebeck(T=state['T'],P=state['P'])
+
+    def r(self,state):
+        if(self.ResistivityType=='const'):
+            return self.Resistivity
+        else:
+            if(self.ResistivityType=='Temperature_dependent'):
+                return self.Resistivity(T=state['T'])
+            elif(self.ResistivityType=='Pressure_dependent'):
+                return self.Resistivity(P=state['P'])
+            elif(self.ResistivityType=='Temperature_Pressure_dependent'):
+                return self.Resistivity(T=state['T'],P=state['P'])
 
 Air=Fluid({'Density':1.225,'Conductivity':0.025,'Specificheat':1030,'Viscosity':1.81e-5,'DensityType':'const','ConductivityType':'const','SpecificheatType':'const','ViscosityType':'const'})
 Water=Fluid({'Density':998,'Conductivity':0.5918,'Specificheat':4182,'Viscosity':1e-3,'DensityType':'const','ConductivityType':'const','SpecificheatType':'const','ViscosityType':'const'})

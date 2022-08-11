@@ -1,8 +1,6 @@
 from copy import deepcopy
 import numpy as np
 
-import time
-
 def find_key(dict,value):
     for k,v in dict.items():
         if(v==value):
@@ -37,7 +35,7 @@ class circuit:
             end=find_key(self.node,e)
             self.edge[start].append(end)
             self.reverse[end].append(start)
-    
+
     def set_in_out(self):
         path=self.BFS_path_list()
         diff=[]
@@ -117,6 +115,10 @@ class circuit:
         
         return [np.array(A),np.array(B)]
 
+    def solve(self):
+        A,B=self.make_eqn()
+        return np.dot(np.linalg.pinv(A),B)
+
     def calculate_load_resistence(self):
         new_circuit=deepcopy(self)
         for i,j in new_circuit.node.items():
@@ -156,18 +158,25 @@ class circuit:
             string+='\n'
         return string
 
-a=node(1,0)
-b=node(1,4)
-c=node(0,2)
+a=node(0,1)
+b=node(0,1)
+c=node(0,1)
 d=node(0,1)
-C=circuit([a,b,c,d],[(a,b),(a,c),(b,d),(c,d),(d,a)])
+e=node(0,1)
+f=node(0,1)
+g=node(0,1)
+h=node(0,1)
+C=circuit([a,b,c,d,e,f,h,g],[(a,b),(a,d),(a,e),(b,c),(b,f),(d,c),(d,h),(e,f),(e,h),(c,g),(f,g),(h,g),(g,a)])
 
-A,B=C.make_eqn()
-I=np.dot(np.linalg.inv(np.dot(A.T,A)),np.dot(A.T,B))
-print(I)
-print('test')
 print(C.calculate_load_resistence())
-# print(C)
-# print(C.set_in_out())
-# for i,j in C.node.items():
-#     print(j.In)
+
+
+
+# I=C.solve()
+# print(I)
+# print('Power : ',C.node[3].r*I[-1]**2)
+# print(C.calculate_load_resistence())
+# C.node[3].r=C.calculate_load_resistence()[0]
+# I=C.solve()
+# print(I)
+# print('Power : ',C.node[3].r*I[-1]**2)
