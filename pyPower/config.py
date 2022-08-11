@@ -9,10 +9,13 @@ class cubic(config):
         self.w=info['Width']
         self.d=info['Depth']
         self.h=info['Height']
+        self.Area=self.w*self.d
 
 class plate(cubic):
     def __init__(self, info):
         super.__init__(info)
+        self.H=info['duct height']
+        self.Area=self.w*self.H
 
     def Thermal_Resistence(self,material,inlet):
         fluid=inlet['fluid']

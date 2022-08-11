@@ -85,3 +85,26 @@
   
       </div>
     </details>
+
+### 1-7, August
+* Module 모듈 구현  
+  hot and cold side, ThermoElectric Module의 config 와 material를 입력 받아 member variable로 취함  
+  Module은 입출구 조건을 입력받았을 때, 각각의 물리적 수치를 계산하는 기능이 기본적으로 구성되어 있음  
+  Module의 set_inout 함수를 통해 입출구 조건을 부여  
+  Module의 valid 함수를 통해 입력받은 전력값과 입출구의 오차를 계산하고 반환  
+  Module의 Voltage_and_Resistence 함수를 통해 주어진 조건하에 등가 회로 노드 구성을 위한 전압과 저항값을 반환  
+  이를 적절히 handling하는 것은 System class를 통해 해결할 예정
+
+### 8-14, August  
+* part 모듈 구현  
+  이전 버젼의 경우 config와 material이 함께 구성되었기 때문에 재사용에 있어서 불리한 부분이 존재했음  
+  이를 해결하기 위해 config와 material로 따로 구성  
+  part class 는 자식 클래스로 heat_exchanger와 TEM 클래스를 가짐  
+  heat_exchanger 클래스는 다시 자식클래스로 hot_side와 cold_side 클래스를 가짐  
+  이는 직관성을 위함  
+  heat_exchanger와 TEM모듈을 따로 분리한 이유는 heat_exchanger 클래스의 경우 열저항이라는 특수한 물성치를 계산할 필요성이 있기 때문  
+* config 모듈 구현  
+  자식 클래스로 cubic, plate, heatsink 클래스를 가짐, heatsink클래스는 다시 자식클래스로 Plate_fin_heatsink 클래스를 가짐  
+  이는 heatsink 클래스의 경우 상위의 개념이기 때문  
+  각각의 자식 클래스는 shape parameter와 계산에 필요한 정보를 저장함  
+  또한 특정 클래스(heat_exchanger로 활용될 수 있는)는 각각 Thermal_Resistence 함수를 이용하여 열저항을 반환하는 기능을 가짐  
