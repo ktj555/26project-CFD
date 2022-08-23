@@ -158,6 +158,87 @@ class circuit:
             string+='\n'
         return string
 
+class mass_flow:
+    def __init__(self,nodes,edges):
+        self.node={}
+        self.edge=[]
+        self.reverse=[]
+        i=0
+        self.setup=False
+        self.d=None
+        for n in nodes:
+            self.node[i]=n
+            self.edge.append([])
+            self.reverse.append([])
+            i+=1
+        for s,e in edges:
+            start=find_key(self.node,s)
+            end=find_key(self.node,e)
+            self.edge[start].append(end)
+            self.reverse[end].append(start)
+
+    def next(self,index):
+        return self.edge[index]
+
+    def previous(self,index):
+        return self.reverse[index]
+
+    def set_in(self,in_):
+        self.mass={}
+        self.mass['in']=in_
+    
+    def DFS_path_list(self):
+        result=[]
+        path=[]
+        pos=0
+        is_go=[0 for _ in range(len(self.node))]
+        while(1):
+            is_go[pos]=1
+            if(pos not in result):
+                result.append(pos)
+            for i in self.edge[pos]:
+                if(is_go[i]==0):
+                    path.append(i)
+            if(len(path)==0):
+                break
+            pos=path[-1]
+            del path[-1]
+
+        return result
+
+    def BFS_path_list(self):
+        result=[]
+        path=[]
+        pos=0
+        is_go=[0 for _ in range(len(self.node))]
+        while(1):
+            is_go[pos]=1
+            if(pos not in result):
+                result.append(pos)
+            for i in self.edge[pos]:
+                if(is_go[i]==0):
+                    path.append(i)
+            if(len(path)==0):
+                break
+            pos=path[0]
+            del path[0]
+
+        return result
+
+    def solve(self):
+        path=self.DFS_path_list()
+        mass={}
+        for index,m in self.mass['in'].items():
+            mass[index]=m
+        for pos in path:
+            if(find_key(mass,pos)):
+                continue
+            else:
+                mass[pos]=0
+                for i in self.reverse[pos]:
+                    mass[pos]+=mass[i]
+        return mass
+
 a=node(0,1)
 b=node(0,1)
 c=node(0,1)
