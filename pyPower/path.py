@@ -128,7 +128,7 @@ class circuit:
         
         A,B=new_circuit.make_eqn()
         I=np.dot(np.linalg.pinv(A),B)
-        return 1/I[0]
+        return 1/I[0][0]
 
     def BFS_path_list(self):
         result=[]
@@ -187,10 +187,10 @@ class mass_flow:
         self.mass={}
         self.mass['in']=in_
     
-    def DFS_path_list(self):
+    def DFS_path_list(self,start):
         result=[]
         path=[]
-        pos=0
+        pos=start
         is_go=[0 for _ in range(len(self.node))]
         while(1):
             is_go[pos]=1
@@ -225,12 +225,12 @@ class mass_flow:
 
         return result
 
-    def solve(self):
-        path=self.DFS_path_list()
+    def solve(self,start):
+        path=self.DFS_path_list(start)
         mass={}
         for index,m in self.mass['in'].items():
             mass[index]=m
-        for pos in path:
+        for pos in path[1:]:
             if(find_key(mass,pos)):
                 continue
             else:
@@ -238,26 +238,3 @@ class mass_flow:
                 for i in self.reverse[pos]:
                     mass[pos]+=mass[i]
         return mass
-
-a=node(0,1)
-b=node(0,1)
-c=node(0,1)
-d=node(0,1)
-e=node(0,1)
-f=node(0,1)
-g=node(0,1)
-h=node(0,1)
-C=circuit([a,b,c,d,e,f,h,g],[(a,b),(a,d),(a,e),(b,c),(b,f),(d,c),(d,h),(e,f),(e,h),(c,g),(f,g),(h,g),(g,a)])
-
-print(C.calculate_load_resistence())
-
-
-
-# I=C.solve()
-# print(I)
-# print('Power : ',C.node[3].r*I[-1]**2)
-# print(C.calculate_load_resistence())
-# C.node[3].r=C.calculate_load_resistence()[0]
-# I=C.solve()
-# print(I)
-# print('Power : ',C.node[3].r*I[-1]**2)

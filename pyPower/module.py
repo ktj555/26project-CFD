@@ -17,30 +17,36 @@ class module:
         hot_flow=self.hot_in['fluid']
         cold_flow=self.cold_in['fluid']
 
-        hot_state={'T':(self.hot_in['state']['T']+self.hot_out['state']['T'])*0.5,'T':(self.hot_in['state']['P']+self.hot_out['state']['P'])*0.5}
-        cold_state={'T':(self.cold_in['state']['T']+self.cold_out['state']['T'])*0.5,'T':(self.cold_in['state']['P']+self.cold_out['state']['P'])*0.5}
-        C_h=self.hot_in['velocity']*hot_flow.rho(hot_state)*self.hot_side.Area*hot_flow.Cp(hot_state)
-        C_c=self.cold_in['velocity']*cold_flow.rho(cold_state)*self.cold_side.Area*hot_flow.Cp(cold_state)
+        try:
+            hot_state={'T':(self.hot_in['state']['T']+self.hot_out['state']['T'])*0.5,'P':(self.hot_in['state']['P']+self.hot_out['state']['P'])*0.5}
+        except:
+            hot_state={'T':(self.hot_in['state']['T']+self.hot_out['state']['T'])*0.5}
+        try:
+            cold_state={'T':(self.cold_in['state']['T']+self.cold_out['state']['T'])*0.5,'P':(self.cold_in['state']['P']+self.cold_out['state']['P'])*0.5}
+        except:
+            cold_state={'T':(self.cold_in['state']['T']+self.cold_out['state']['T'])*0.5}
+        C_h=self.hot_in['velocity']*hot_flow.rho(hot_state)*self.hot_side.config.Area*hot_flow.Cp(hot_state)
+        C_c=self.cold_in['velocity']*cold_flow.rho(cold_state)*self.cold_side.config.Area*cold_flow.Cp(cold_state)
 
         T_TEM_h=hot_state['T']-self.R_h*C_h*(self.hot_in['state']['T']-self.hot_out['state']['T'])
         T_TEM_c=cold_state['T']-self.R_c*C_c*(self.cold_in['state']['T']-self.cold_out['state']['T'])
         del_T=T_TEM_h-T_TEM_c
 
-        if(self.TEM.material.Seebecktype=='average'):
+        if(self.TEM.material.SeebeckType=='average'):
             T_a=0.5*(T_TEM_h+T_TEM_c)
-        elif(self.TEM.material.Seebecktype=='diff'):
+        elif(self.TEM.material.SeebeckType=='diff'):
             T_a=del_T
         else:
             T_a=0
-        if(self.TEM.material.Resistancetype=='average'):
+        if(self.TEM.material.ResistivityType=='average'):
             T_R=0.5*(T_TEM_h+T_TEM_c)
-        elif(self.TEM.material.Resistancetype=='diff'):
+        elif(self.TEM.material.ResistivityType=='diff'):
             T_R=del_T
         else:
             T_R=0
-        if(self.TEM.material.Conductivitytype=='average'):
+        if(self.TEM.material.ConductivityType=='average'):
             T_k=0.5*(T_TEM_h+T_TEM_c)
-        elif(self.TEM.material.Conductivitytype=='diff'):
+        elif(self.TEM.material.ConductivityType=='diff'):
             T_k=del_T
         else:
             T_k=0
@@ -65,24 +71,33 @@ class module:
         hot_flow=self.hot_in['fluid']
         cold_flow=self.cold_in['fluid']
 
-        hot_state={'T':(self.hot_in['state']['T']+self.hot_out['state']['T'])*0.5,'T':(self.hot_in['state']['P']+self.hot_out['state']['P'])*0.5}
-        cold_state={'T':(self.cold_in['state']['T']+self.cold_out['state']['T'])*0.5,'T':(self.cold_in['state']['P']+self.cold_out['state']['P'])*0.5}
-        C_h=self.hot_in['velocity']*hot_flow.rho(hot_state)*self.hot_side.Area*hot_flow.Cp(hot_state)
-        C_c=self.cold_in['velocity']*cold_flow.rho(cold_state)*self.cold_side.Area*hot_flow.Cp(cold_state)
+        self.R_h=self.hot_side.Thermal_Resistence(self.hot_in)
+        self.R_c=self.cold_side.Thermal_Resistence(self.cold_in)
+
+        try:
+            hot_state={'T':(self.hot_in['state']['T']+self.hot_out['state']['T'])*0.5,'P':(self.hot_in['state']['P']+self.hot_out['state']['P'])*0.5}
+        except:
+            hot_state={'T':(self.hot_in['state']['T']+self.hot_out['state']['T'])*0.5}
+        try:
+            cold_state={'T':(self.cold_in['state']['T']+self.cold_out['state']['T'])*0.5,'P':(self.cold_in['state']['P']+self.cold_out['state']['P'])*0.5}
+        except:
+            cold_state={'T':(self.cold_in['state']['T']+self.cold_out['state']['T'])*0.5}
+        C_h=self.hot_in['velocity']*hot_flow.rho(hot_state)*self.hot_side.config.Area*hot_flow.Cp(hot_state)
+        C_c=self.cold_in['velocity']*cold_flow.rho(cold_state)*self.cold_side.config.Area*cold_flow.Cp(cold_state)
 
         T_TEM_h=hot_state['T']-self.R_h*C_h*(self.hot_in['state']['T']-self.hot_out['state']['T'])
         T_TEM_c=cold_state['T']-self.R_c*C_c*(self.cold_in['state']['T']-self.cold_out['state']['T'])
         del_T=T_TEM_h-T_TEM_c
 
-        if(self.TEM.material.Seebecktype=='average'):
+        if(self.TEM.material.SeebeckType=='average'):
             T_a=0.5*(T_TEM_h+T_TEM_c)
-        elif(self.TEM.material.Seebecktype=='diff'):
+        elif(self.TEM.material.SeebeckType=='diff'):
             T_a=del_T
         else:
             T_a=0
-        if(self.TEM.material.Resistancetype=='average'):
+        if(self.TEM.material.ResistivityType=='average'):
             T_R=0.5*(T_TEM_h+T_TEM_c)
-        elif(self.TEM.material.Resistancetype=='diff'):
+        elif(self.TEM.material.ResistivityType=='diff'):
             T_R=del_T
         else:
             T_R=0

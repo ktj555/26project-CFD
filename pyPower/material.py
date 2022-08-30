@@ -46,7 +46,7 @@ class Material:
 
     def Cp(self,state):
         if(self.SpecificheatType=='const'):
-            self.Specificheat
+            return self.Specificheat
         else:
             if(self.SpecificheatType=='Temperature_dependent'):
                 return self.Specificheat(T=state['T'])
@@ -113,5 +113,5 @@ class Solid(Material):
 Air=Fluid({'Density':1.225,'Conductivity':0.025,'Specificheat':1030,'Viscosity':1.81e-5,'DensityType':'const','ConductivityType':'const','SpecificheatType':'const','ViscosityType':'const'})
 Water=Fluid({'Density':998,'Conductivity':0.5918,'Specificheat':4182,'Viscosity':1e-3,'DensityType':'const','ConductivityType':'const','SpecificheatType':'const','ViscosityType':'const'})
 
-Steel=Solid({'Density':7750,'Conductivity':14,'Specificheat':490,'Seebeck':0,'Resistivity':89e-9,'ConductivityType':'const','SpecificheatType':'const','SeebeckType':'const','ResistivityType':'const'})
+Steel=Solid({'Density':7750,'Conductivity':14,'Specificheat':490,'Seebeck':0,'Resistivity':89e-9,'DensityType':'const','ConductivityType':'const','SpecificheatType':'const','SeebeckType':'const','ResistivityType':'const'})
 Aluminum=Solid({'Density':2710,'Conductivity':237,'Specificheat':898.8,'Seebeck':0,'Resistivity':26.5e-9,'DensityType':'const','ConductivityType':'const','SpecificheatType':'const','SeebeckType':'const','ResistivityType':'const'})
