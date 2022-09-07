@@ -32,17 +32,7 @@ Python을 통한 사용하기 쉬운 CFD 라이브러리 만들기
 
 
 ## **해석 절차**
-1. 고온부, 저온부, 발전장치의 모양 및 물성 지정 &rarr; Module
-2. Module들을 만들어 배치 &rarr; System
-3. System에 경계조건 부여
-4. 해석
-  * 초기값 부여
-  * 유동 해석 &rarr; 열 해석을 위한 경계조건 결정
-  * 열 해석 part.1 &rarr; 각각의 Module 전압 및 저항 계산
-  * 전기회로 해석 &rarr; 전류 계산
-  * 열 해석 part.2 &rarr; 최종 계산 결과 도출 및 error 계산
-  * 반복
-
+<p align="center"><a href="url"><img src="https://user-images.githubusercontent.com/97779416/188811089-4e550b90-91ea-427d-acc5-d9f5e18d3f5d.PNG"><img src="https://user-images.githubusercontent.com/97779416/188811094-d93563ac-6aed-4c94-91a6-228c88c9a73c.PNG"></a></p>
 
 ## **Modules**
 총 6개 모듈
@@ -52,14 +42,6 @@ Python을 통한 사용하기 쉬운 CFD 라이브러리 만들기
 * **module.py**
 * **path.py**
 * **system.py**
-
-## **Code**
-<p align="center"><a href="url"><img src="https://user-images.githubusercontent.com/97779416/188553875-e97276ac-26a2-4b1f-998a-ac1593710f1f.PNG"><img src="https://user-images.githubusercontent.com/97779416/188553872-c490b86d-f637-45a6-a724-65083c28e0f8.PNG"><img src="https://user-images.githubusercontent.com/97779416/188553877-7707fc27-7c17-4733-a97a-59260ef3a25a.PNG"><img src="https://user-images.githubusercontent.com/97779416/188553878-0ccce11b-0511-4ecd-94cd-7e1a8f90047d.PNG"><img src="https://user-images.githubusercontent.com/97779416/188553881-4661072e-a2d8-4b5b-98db-b97d88332ff0.PNG"></a></p>
-
-## **Concept**
-<p align="center"><a href="url"><img src="https://user-images.githubusercontent.com/97779416/188427001-bbf25d48-2f29-4a99-9e4e-9e8a2d58fa26.PNG" width="800" height="300"></a></p>
-
-전기 회로 : 노드와 노드의 연결로 구성된 폐회로 &rarr; Graph
 
 ## **Circuit**
 <p align="center"><a href="url"><img src="https://user-images.githubusercontent.com/97779416/188554456-80f0b0aa-0500-4278-89fa-ad45cb5d2640.PNG"><img src="https://user-images.githubusercontent.com/97779416/188554457-d246af4f-fa6f-4142-98a9-9c13ca5e2759.PNG"></a></p>
@@ -71,3 +53,8 @@ Python을 통한 사용하기 쉬운 CFD 라이브러리 만들기
 <p align="center"><img src="https://user-images.githubusercontent.com/97779416/188593667-5ed93599-656d-4911-a8c7-be6d1c560b67.PNG"><a href="url"><img src="https://user-images.githubusercontent.com/97779416/188591819-53a15f12-7b78-4e83-a57d-489d5f0bb609.PNG"></a></p>
 
 ## **차후 계획**
+* 결과값 출력 포맷 수정 및 시각화
+* Code 분할
+* Gradient Vanishing 문제
+* 물리적 실체 위주 &rarr; 물리적 현상 위주
+* 수식 결합 알고리즘화
