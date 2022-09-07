@@ -62,34 +62,40 @@ class circuit:
         B=[]
         node_list=[i for i in range(len(self.node))]
 
+        # 전류와 전압 측면에서 키르히호프 법칙 적용
+        # 전체 노드를 탐색하면서 각각의 상황에 맞는 방정식의 계수를 반환하고 행렬식에 기입하는 방식
+
+        # 전류 측면에서 분석
         for i in range(len(self.edge)):
-            if(len(self.edge[i])>1):
+            if(len(self.edge[i])>1):    # 노드를 탐색하면서 여러 갈래로 퍼져나가는 경우에 대해 처리함
                 pre=[0 for _ in range(len(self.node))]
-                for index in self.edge[i]:
+                for index in self.edge[i]:  # 퍼지는 노드에 대해서 1
                     pre[index]=1
-                pre[i]=-1
+                pre[i]=-1                   # 퍼지기 전 노드에 대해서 -1
                 A.append(pre)
                 B.append([0])
                 if(i in node_list):
                     node_list.remove(i)
         for i in range(len(self.reverse)):
-            if(len(self.reverse[i])>1):
+            if(len(self.reverse[i])>1): # 노드를 탐색하면서 여러 갈래가 모이는 경우에 대해 처리함
                 pre=[0 for _ in range(len(self.node))]
-                for index in self.reverse[i]:
+                for index in self.reverse[i]:   # 합쳐지는 노드에 대해서 1
                     pre[index]=1
                     if(index in node_list):
                         node_list.remove(index)
-                pre[i]=-1
+                pre[i]=-1                       # 합쳐진 후 노드에 대해서 -1
                 A.append(pre)
                 B.append([0])
-        for i in node_list:
+        for i in node_list:             # 나머지 노드를 처리
             pre=[0 for _ in range(len(self.node))]
             pre[self.edge[i][0]]=1
             pre[i]=-1
             A.append(pre)
             B.append([0])
-        for i in diff:
-            in_list=self.node[i].In
+
+        # 전압 측면에서 분석
+        for k in diff:                  # 들어오고 나가는 수가 다른 경우에 대해서 처리함
+            in_list=self.node[k].In
             for i in range(len(in_list)-1):
                 first=in_list[i]
                 second=in_list[i+1]
@@ -113,6 +119,7 @@ class circuit:
         A.append(pre)
         B.append(pre_b)
         
+        #최종 행렬식 반환
         return [np.array(A),np.array(B)]
 
     def solve(self):

@@ -57,22 +57,22 @@ class system:
         step=first_step
         
         total_error=1e100
-        last_error=1e00
+        last_error=1e100
 
         iter=0
 
-        while(total_error>error):
+        while(total_error>error):   # 에러가 기준보다 작아질때까지 반복
             Node=[]
             path=[]
             num=[]
-            for i in self.chain:
+            for i in self.chain:    # 연결 상태 순서대로 해석 진행
                 module_num=i[0]
                 hot_num=i[1]
                 cold_num=i[2]
                 try:
-                    hot_next=self.flow['hot'].next(hot_num)[0]
+                    hot_next=self.flow['hot'].next(hot_num)[0]  # 다음 연결 정보 찾기
                 except:
-                    hot_next=-1
+                    hot_next=-1                                 # 실패하면 마지막
                 try:
                     cold_next=self.flow['cold'].next(cold_num)[0]
                 except:
@@ -81,27 +81,30 @@ class system:
                 hot_out={'state':{'T':self.hot_temperature[hot_next]},'fluid':self.hot_fluid}
                 cold_in={'state':{'T':self.cold_temperature[cold_num]},'fluid':self.cold_fluid,'velocity':self.mass['cold'][module_num]/self.module.cold_side.config.Area/self.cold_fluid.rho({'T':self.cold_temperature[cold_num]})}
                 cold_out={'state':{'T':self.cold_temperature[cold_next]},'fluid':self.cold_fluid}
-                self.module.set_inout(hot_in,hot_out,cold_in,cold_out)
+                self.module.set_inout(hot_in,hot_out,cold_in,cold_out)      # 모듈 설정
 
-                V_R=self.module.voltage_and_Resistence()
-                Node.append(node(V_R['V'],V_R['R']))
+                V_R=self.module.voltage_and_Resistence()                    # 전압 및 저항 계산
+                Node.append(node(V_R['V'],V_R['R']))                        # 회로 해석을 위한 노드 저장
                 num.append(module_num)
+            
+            # 모든 모듈 해석
+
             Node.append(node(0,0))
             num.append(-1)
             for s,e in self.circuit_list:
-                path.append([Node[num.index(s)],Node[num.index(e)]])
+                path.append([Node[num.index(s)],Node[num.index(e)]])        # 회로 연결 상태 정의
             path.append([Node[num.index(e)],Node[num.index(-1)]])
             path.append([Node[num.index(-1)],self.circuit_list[0][0]])
-            self.circuit=circuit(Node,path)
+            self.circuit=circuit(Node,path)                                 # 회로 구성
             if(not load):
                 self.circuit.node[len(self.circuit.node)-1].r=self.circuit.calculate_load_resistence()
             else:
                 self.circuit.node[len(self.circuit.node)-1].r=load
-            I=self.circuit.solve()
+            I=self.circuit.solve()                                          # 전류 해석
 
             result=[]
 
-            for i in self.chain:
+            for i in self.chain:        # 구해진 전류를 바탕으로 경계조건 검증 시작
                 module_num=i[0]
                 hot_num=i[1]
                 cold_num=i[2]
@@ -119,14 +122,14 @@ class system:
                 cold_out={'state':{'T':self.cold_temperature[cold_next]},'fluid':self.cold_fluid}
                 self.module.set_inout(hot_in,hot_out,cold_in,cold_out)
 
-                result.append(self.module.valid(I[num.index(module_num)][0]))
+                result.append(self.module.valid(I[num.index(module_num)][0]))   # 에러를 기록
 
             total_error=0
 
             for i in result:
                 total_error+=i[0]+i[1]
 
-            if(total_error>last_error):
+            if(total_error>last_error):     # 에러가 직전보다 커지면 스텝 사이즈 조절
                 step*=step_decrease
 
             last_error=deepcopy(total_error)
@@ -134,6 +137,7 @@ class system:
             Total_error_h={}
             size_h=0
 
+            # 각 변수들의 에러에 대한 기울기를 계산
             for j in self.hot_temperature.keys():
                 if(j == self.flow_in['hot']):
                     continue
@@ -285,6 +289,7 @@ class system:
 
                 self.cold_temperature[j]-=0.01
 
+            # 구해진 기울기를 바탕으로 초기값 수정
             for i in self.hot_temperature.keys():
                 if(i == self.flow_in['hot']):
                     continue
@@ -297,7 +302,7 @@ class system:
 
             iter+=1
 
-            if(print_b and iter%100 == 0):
+            if(print_b and iter%1000 == 0):
                 print('iteration : {}'.format(iter))
                 print('hot temperature :',self.hot_temperature)
                 print('cold temperature :',self.cold_temperature)

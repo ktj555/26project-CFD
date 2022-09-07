@@ -10,6 +10,7 @@ class Material:
                 setattr(self,i,None)
                 print(i,'is not defined')
 
+    # 정보 수정 및 확인
     def set_prop(self,info):
         l=dir(self)
         for key,value in info.items():
@@ -21,16 +22,20 @@ class Material:
             if (i not in dir(Material)):
                 print(i,'is',getattr(self,i))
 
+    # Getter
     def rho(self,state):
         if(self.DensityType=='const'):
+            # 상수인 경우 바로 반환
             return self.Density
         else:
+            # 그렇지 않은 경우 각 타입에 맞는 값 반환
             if(self.DensityType=='Temperature_dependent'):
                 return self.Density(T=state['T'])
             elif(self.DensityType=='Pressure_dependent'):
                 return self.Density(P=state['P'])
             elif(self.DensityType=='Temperature_Pressure_dependent'):
                 return self.Density(T=state['T'],P=state['P'])
+        # 아무런 타입 지정이 없을 경우 False 반환
         return False
 
     def k(self,state):
@@ -54,6 +59,7 @@ class Material:
                 return self.Specificheat(P=state['P'])
             elif(self.Specificheat=='Temperature_Pressure_dependent'):
                 return self.Specificheat(T=state['T'],P=state['P'])
+
 
 class Fluid(Material):
     def __init__(self,info):

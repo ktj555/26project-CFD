@@ -42,6 +42,4 @@ system.set_chain([[0,0,4],[1,1,3],[2,2,2],[3,3,1],[4,4,0]])
 
 system.compile()
 
-
-
-# system.solve(first_step=1e-3,step_decrease=0.9,print_b=True)
+system.solve(first_step=1e-3,step_decrease=0.9,print_b=True)

@@ -39,9 +39,12 @@ class Plate_fin_heatsink(heatsink):
         self.fin=info['fin']
         self.Area=(self.base['Width']-self.fin['Width']*self.fin['N_fin'])*self.fin['Height']
 
+    # 구성물질과 입구조건이 결정되었을 때
+    # 열저항 계산하여 반환
     def Thermal_Resistence(self,material,inlet):
         fluid=inlet['fluid']
         v=inlet['velocity']
+
         b=(self.base['Width']-self.fin['N_fin']*self.fin['Width']-2*self.fin['Side'])/(self.fin['N_fin']-1)
         Re=v*b*fluid.rho(inlet['state'])/fluid.mu(inlet['state'])
         Re_star=Re*b/self.base['Depth']

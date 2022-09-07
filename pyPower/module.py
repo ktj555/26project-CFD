@@ -4,12 +4,14 @@ class module:
         self.hot_side=info['Hot_Side']
         self.cold_side=info['Cold_Side']
     
+    # 조건 부여
     def set_inout(self,hot_in,hot_out,cold_in,cold_out):
         self.hot_in=hot_in
         self.hot_out=hot_out
         self.cold_in=cold_in
         self.cold_out=cold_out
     
+    # 조건 검증
     def valid(self,I):
         self.R_h=self.hot_side.Thermal_Resistence(self.hot_in)
         self.R_c=self.cold_side.Thermal_Resistence(self.cold_in)
@@ -67,6 +69,7 @@ class module:
 
         return [error_h,error_c]
 
+    # 조건에 대한 전압 및 저항 산출
     def voltage_and_Resistence(self):
         hot_flow=self.hot_in['fluid']
         cold_flow=self.cold_in['fluid']
