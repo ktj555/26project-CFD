@@ -57,4 +57,3 @@ Python을 통한 사용하기 쉬운 CFD 라이브러리 만들기
 * Code 분할
 * Gradient Vanishing 문제
 * 물리적 실체 위주 &rarr; 물리적 현상 위주
-* 수식 결합 알고리즘화
